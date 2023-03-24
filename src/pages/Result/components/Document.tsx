@@ -27,8 +27,6 @@ const Document = (props: Props) => {
     alert("!");
   };
 
-  console.log("!");
-
   return (
     <DocumentStyled ref={targetRef} onClick={() => window.open(item.url)}>
       <img src={item.imageUrl} alt={item.imageUrl} onError={onError} />
@@ -54,6 +52,7 @@ export default Document;
 
 const DocumentStyled = styled.div`
   width: 100%;
+  height: 104px;
   padding: 16px 20px;
   background: #fff;
   border-radius: 16px;

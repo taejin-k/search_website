@@ -10,7 +10,7 @@ const Modal = () => {
       <div className="modalWrap">
         <div className="top">
           <p>{modalState.text}</p>
-          <button type="button" className="iconWrap" onClick={closeGlobalModal}>
+          <button type="button" onClick={closeGlobalModal}>
             <Icon width={24} height={24} iconKey="modal_close" />
           </button>
         </div>

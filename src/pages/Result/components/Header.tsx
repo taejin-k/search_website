@@ -1,34 +1,21 @@
-import { KeyboardEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Icon from "../../../components/Icon";
 import Input from "../../../components/Input";
-import useGlobalModal from "../../../hooks/useGlobalModal";
+import useInput from "../../../hooks/useInput";
 import { useGetDocumentsQuery } from "../../../quries/searchQuery";
 import { useAppSelector } from "../../../redux/hooks";
 import { RootState } from "../../../redux/store";
 import { HOME_URL } from "./../../../constants/urlConstants";
-import { useDispatch } from "react-redux";
-import { setKeyword } from "../../../redux/keywordSlice";
+import { useEffect } from "react";
 
 const Header = () => {
   const navigation = useNavigate();
-  const dispatch = useDispatch();
   const keyword = useAppSelector((state: RootState) => state.keyword);
-  const [value, setValue] = useState(keyword);
-  const [isFocus, setIsFocus] = useState(false);
   const getDocuments = useGetDocumentsQuery(keyword);
-  const { openGlobalModal } = useGlobalModal();
+  const { value, focus, onFocus, onBlur, onChange, onEnter } = useInput();
 
-  const onEnter = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key !== "Enter") return;
-    if (value === "") {
-      openGlobalModal({ isOpen: true, text: "검색어를 입력해주세요" });
-      return;
-    }
-
-    dispatch(setKeyword(value));
-  };
+  useEffect(() => onChange(keyword), []);
 
   return (
     <HeaderStyled>
@@ -37,13 +24,13 @@ const Header = () => {
       </button>
       <Input
         value={value}
-        focus={isFocus}
+        focus={focus}
         close={Boolean(value)}
-        onFocus={() => setIsFocus(true)}
-        onBlur={() => setIsFocus(false)}
-        onChange={(value) => setValue(value)}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        onChange={onChange}
         onEnter={onEnter}
-        onClose={() => setValue("")}
+        onClose={() => onChange("")}
       />
     </HeaderStyled>
   );

@@ -24,6 +24,7 @@ export default DocumentSkeleton;
 
 const DocumentSkeletonStyled = styled.div`
   width: 100%;
+  height: 104px;
   padding: 16px 20px;
   background: #fff;
 
@@ -67,7 +68,7 @@ const DocumentSkeletonStyled = styled.div`
 
     .netloc {
       > p {
-        width: 60px;
+        width: 80px;
         height: 10px;
         border-radius: 4px;
         background: #f2f3f7;

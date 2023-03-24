@@ -11,18 +11,18 @@ const Main = () => {
   const getDocuments = useGetDocumentsQuery(keyword);
   const targetRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleObserver = (
-      entries: IntersectionObserverEntry[],
-      observer: IntersectionObserver
-    ) => {
-      const target = entries[0];
-      if (target.isIntersecting) {
-        observer.unobserve(target.target);
-        getDocuments.fetchNextPage();
-      }
-    };
+  const handleObserver = (
+    entries: IntersectionObserverEntry[],
+    observer: IntersectionObserver
+  ) => {
+    const target = entries[0];
+    if (target.isIntersecting) {
+      observer.unobserve(target.target);
+      getDocuments.fetchNextPage();
+    }
+  };
 
+  useEffect(() => {
     const option = { rootMargin: "0px", threshold: 0 };
     const observer = new IntersectionObserver(handleObserver, option);
     if (
