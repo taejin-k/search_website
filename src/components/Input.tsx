@@ -28,7 +28,7 @@ const Input = (props: Props) => {
   } = props;
 
   return (
-    <InputStyled value={value} focus={focus} iconKey={iconKey}>
+    <InputStyled value={value} focus={focus} iconKey={iconKey} close={close}>
       {iconKey ? (
         <div className="iconWrap icon">
           <Icon width={24} height={24} iconKey={iconKey} />
@@ -58,6 +58,7 @@ const InputStyled = styled.div<{
   value: string;
   focus: boolean;
   iconKey: string | undefined;
+  close: boolean | undefined;
 }>`
   ${(props) => css`
     position: relative;
@@ -88,7 +89,9 @@ const InputStyled = styled.div<{
       border: ${props.focus ? "1.5px solid #00C3CC;" : "1px solid #c2c6ce;"};
       caret-color: ${props.focus && "#00C3CC;"};
       border-radius: 48px;
-      padding: ${`0px 16px 0px ${props.iconKey ? "56px" : "16px"}`};
+      padding: 0px 16px;
+      padding-left: ${props.iconKey && "56px"};
+      padding-right: ${props.close && "56px"};
       font-size: 16px;
       color: #33373d;
 

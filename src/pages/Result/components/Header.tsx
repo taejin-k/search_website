@@ -38,16 +38,18 @@ const Header = (props: Props) => {
       >
         <Icon width={24} height={24} iconKey="arrow_back" />
       </button>
-      <Input
-        value={value}
-        focus={isFocus}
-        close={Boolean(value)}
-        onFocus={() => setIsFocus(true)}
-        onBlur={() => setIsFocus(false)}
-        onChange={(value) => setValue(value)}
-        onEnter={onEnter}
-        onClose={() => setValue("")}
-      />
+      <div className="inputWrap">
+        <Input
+          value={value}
+          focus={isFocus}
+          close={Boolean(value)}
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(false)}
+          onChange={(value) => setValue(value)}
+          onEnter={onEnter}
+          onClose={() => setValue("")}
+        />
+      </div>
     </HeaderStyled>
   );
 };
@@ -56,13 +58,29 @@ export default Header;
 
 const HeaderStyled = styled.header`
   display: flex;
-  gap: 20px;
+  gap: 12px;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 40px;
+  width: 100%;
+  padding: 16px 40px 16px 32px;
+  background: #fff;
+
+  > .inputWrap {
+    flex-grow: 1;
+  }
 
   > .iconWrap {
+    width: 40px;
+    height: 40px;
     background: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
+
+    &:hover {
+      background: #f8f9fb;
+      border-radius: 12px;
+    }
   }
 `;

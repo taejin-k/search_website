@@ -21,4 +21,15 @@ const Main = (props: Props) => {
 
 export default Main;
 
-const MainStyled = styled.main``;
+const MainStyled = styled.main`
+  width: 100%;
+  height: calc(100vh - 80px);
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+`;
