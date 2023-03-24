@@ -5,18 +5,32 @@ import Icon from "./Icon";
 interface Props {
   value: string;
   focus: boolean;
+  close?: boolean;
   iconKey?: string;
+  onFocus: () => void;
+  onBlur: () => void;
   onChange: (value: string) => void;
   onEnter: (event: KeyboardEvent<HTMLInputElement>) => void;
+  onClose?: () => void;
 }
 
 const Input = (props: Props) => {
-  const { value, focus, iconKey, onChange, onEnter } = props;
+  const {
+    value,
+    focus,
+    close,
+    iconKey,
+    onFocus,
+    onBlur,
+    onChange,
+    onEnter,
+    onClose,
+  } = props;
 
   return (
     <InputStyled value={value} focus={focus} iconKey={iconKey}>
       {iconKey ? (
-        <div className="iconWrap">
+        <div className="iconWrap icon">
           <Icon width={24} height={24} iconKey={iconKey} />
         </div>
       ) : null}
@@ -24,9 +38,16 @@ const Input = (props: Props) => {
         type="text"
         value={value}
         placeholder="Search keyword"
+        onFocus={onFocus}
+        onBlur={onBlur}
         onChange={(event) => onChange(event.target.value)}
         onKeyDown={(event) => onEnter(event)}
       />
+      {close ? (
+        <button type="button" className="iconWrap close" onClick={onClose}>
+          <Icon width={24} height={24} iconKey="close" />
+        </button>
+      ) : null}
     </InputStyled>
   );
 };
@@ -45,8 +66,17 @@ const InputStyled = styled.div<{
     > .iconWrap {
       position: absolute;
       top: 50%;
-      left: 16px;
       transform: translateY(-50%);
+      background: none;
+
+      &.icon {
+        left: 16px;
+      }
+
+      &.close {
+        right: 12px;
+        cursor: pointer;
+      }
     }
 
     input {

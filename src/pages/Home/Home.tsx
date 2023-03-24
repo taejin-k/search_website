@@ -4,15 +4,22 @@ import styled from "styled-components";
 import Icon from "../../components/Icon";
 import Input from "../../components/Input";
 import { RESULT_URL } from "../../constants/urlConstants";
+import useGlobalModal from "../../hooks/useGlobalModal";
 import { useGetDocumentsQuery } from "../../quries/searchQuery";
 
 const Home = () => {
   const navigate = useNavigate();
   const [value, setValue] = useState("");
+  const [isFocus, setIsFocus] = useState(false);
   const getDocuments = useGetDocumentsQuery(value, false);
+  const { openGlobalModal } = useGlobalModal();
 
   const onEnter = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key !== "Enter") return;
+    if (value === "") {
+      openGlobalModal({ isOpen: true, text: "검색어를 입력해주세요" });
+      return;
+    }
 
     getDocuments.refetch();
     navigate(RESULT_URL, { state: value });
@@ -25,8 +32,10 @@ const Home = () => {
       </div>
       <Input
         value={value}
-        iconKey={value ? "search_hover" : "search_default"}
-        focus={Boolean(value)}
+        focus={isFocus}
+        iconKey={isFocus ? "search_focus" : "search_default"}
+        onFocus={() => setIsFocus(true)}
+        onBlur={() => setIsFocus(false)}
         onChange={(value) => setValue(value)}
         onEnter={onEnter}
       />
