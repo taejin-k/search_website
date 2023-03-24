@@ -22,7 +22,7 @@ export const GlobalStyle = createGlobalStyle`
     width: 100%;
     height: 100%;
     position: relative;
-    font-family: 'Poppins';
+    font-family: 'Pretendard';
     font-weight: 400;
     color: #222;
 	}
