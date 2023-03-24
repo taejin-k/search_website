@@ -1,4 +1,4 @@
-import { SyntheticEvent, MouseEvent } from "react";
+import { SyntheticEvent, MouseEvent, RefObject, useCallback } from "react";
 import styled from "styled-components";
 import default_favicon from "../../../assets/svg/default_favicon.svg";
 import default_thumb from "../../../assets/svg/default_thumb.svg";
@@ -7,14 +7,18 @@ import { DocumentType } from "../../../models/getDocuments";
 
 interface Props {
   item: DocumentType;
+  targetRef?: RefObject<HTMLDivElement> | null;
 }
 
 const Document = (props: Props) => {
-  const { item } = props;
+  const { item, targetRef } = props;
 
-  const onError = (event: SyntheticEvent<HTMLImageElement, Event>) => {
-    event.currentTarget.src = default_thumb;
-  };
+  const onError = useCallback(
+    (event: SyntheticEvent<HTMLImageElement, Event>) => {
+      event.currentTarget.src = default_thumb;
+    },
+    []
+  );
 
   const onClick = (
     event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
@@ -23,8 +27,10 @@ const Document = (props: Props) => {
     alert("!");
   };
 
+  console.log("!");
+
   return (
-    <DocumentStyled onClick={() => window.open(item.url)}>
+    <DocumentStyled ref={targetRef} onClick={() => window.open(item.url)}>
       <img src={item.imageUrl} alt={item.imageUrl} onError={onError} />
       <div className="content">
         <div className="title">{item.title}</div>

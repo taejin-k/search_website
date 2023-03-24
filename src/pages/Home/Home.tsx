@@ -1,17 +1,18 @@
 import { KeyboardEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Icon from "../../components/Icon";
 import Input from "../../components/Input";
-import { RESULT_URL } from "../../constants/urlConstants";
 import useGlobalModal from "../../hooks/useGlobalModal";
-import { useGetDocumentsQuery } from "../../quries/searchQuery";
+import { useDispatch } from "react-redux";
+import { setKeyword } from "../../redux/keywordSlice";
+import { useNavigate } from "react-router-dom";
+import { RESULT_URL } from "../../constants/urlConstants";
 
 const Home = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [value, setValue] = useState("");
   const [isFocus, setIsFocus] = useState(false);
-  const getDocuments = useGetDocumentsQuery(value, false);
   const { openGlobalModal } = useGlobalModal();
 
   const onEnter = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -21,8 +22,8 @@ const Home = () => {
       return;
     }
 
-    getDocuments.refetch();
-    navigate(RESULT_URL, { state: value });
+    dispatch(setKeyword(value));
+    navigate(RESULT_URL);
   };
 
   return (

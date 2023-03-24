@@ -1,20 +1,54 @@
+import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useGetDocumentsQuery } from "../../../quries/searchQuery";
+import { useAppSelector } from "../../../redux/hooks";
+import { RootState } from "../../../redux/store";
 import Document from "./Document";
+import DocumentSkeleton from "./DocumentSkeleton";
 
-interface Props {
-  value: string;
-}
+const Main = () => {
+  const keyword = useAppSelector((state: RootState) => state.keyword);
+  const getDocuments = useGetDocumentsQuery(keyword);
+  const targetRef = useRef<HTMLDivElement>(null);
 
-const Main = (props: Props) => {
-  const { value } = props;
-  const getDocuments = useGetDocumentsQuery(value, false);
+  useEffect(() => {
+    const handleObserver = (
+      entries: IntersectionObserverEntry[],
+      observer: IntersectionObserver
+    ) => {
+      const target = entries[0];
+      if (target.isIntersecting) {
+        observer.unobserve(target.target);
+        getDocuments.fetchNextPage();
+      }
+    };
+
+    const option = { rootMargin: "0px", threshold: 0 };
+    const observer = new IntersectionObserver(handleObserver, option);
+    if (
+      targetRef.current &&
+      getDocuments.hasNextPage &&
+      !getDocuments.isFetchingNextPage
+    ) {
+      observer.observe(targetRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [getDocuments]);
 
   return (
     <MainStyled>
-      {getDocuments.data?.documents.map((item) => (
-        <Document key={item.id} item={item} />
+      {getDocuments.documents.map((document, index, documents) => (
+        <Document
+          key={new Date().toString() + index}
+          item={document}
+          targetRef={documents.length === index + 1 ? targetRef : null}
+        />
       ))}
+      {getDocuments.isFetching &&
+        [...Array(20)].map((_arry, index) => (
+          <DocumentSkeleton key={new Date().toString() + index} />
+        ))}
     </MainStyled>
   );
 };

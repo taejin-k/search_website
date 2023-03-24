@@ -29,25 +29,26 @@ const Input = (props: Props) => {
 
   return (
     <InputStyled focus={focus} iconKey={iconKey} close={close}>
-      {iconKey ? (
+      {iconKey && (
         <div className="iconWrap icon">
           <Icon width={24} height={24} iconKey={iconKey} />
         </div>
-      ) : null}
+      )}
       <input
         type="text"
         value={value}
         placeholder="Search keyword"
+        maxLength={100}
         onFocus={onFocus}
         onBlur={onBlur}
         onChange={(event) => onChange(event.target.value)}
         onKeyDown={(event) => onEnter(event)}
       />
-      {close ? (
+      {close && (
         <button type="button" className="iconWrap close" onClick={onClose}>
           <Icon width={24} height={24} iconKey="close" />
         </button>
-      ) : null}
+      )}
     </InputStyled>
   );
 };

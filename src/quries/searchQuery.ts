@@ -1,13 +1,28 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { getDocumentsAPI } from "./../apis/searchAPI";
+import useGlobalModal from "./../hooks/useGlobalModal";
 
-export const useGetDocumentsQuery = (
-  keyword: string,
-  enabled: boolean = true
-) => {
-  const query = useQuery(["GetDocuments"], () => getDocumentsAPI(keyword), {
-    enabled: enabled,
-  });
+export const useGetDocumentsQuery = (keyword: string) => {
+  const { openGlobalModal } = useGlobalModal();
 
-  return query;
+  const query = useInfiniteQuery(
+    ["GetDocuments", keyword],
+    ({ pageParam = 0 }) => getDocumentsAPI(keyword, pageParam),
+    {
+      getNextPageParam: ({ isLast, nextPage }) => {
+        if (!isLast) return nextPage;
+      },
+      onError: () =>
+        openGlobalModal({
+          isOpen: true,
+          text: "Something went wrong",
+        }),
+    }
+  );
+
+  const documents = query.data?.pages
+    ? query.data.pages.map((page) => page.documents).flat()
+    : [];
+
+  return { ...query, documents };
 };

@@ -1,22 +1,23 @@
-import { Dispatch, KeyboardEvent, useState } from "react";
+import { KeyboardEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Icon from "../../../components/Icon";
 import Input from "../../../components/Input";
 import useGlobalModal from "../../../hooks/useGlobalModal";
 import { useGetDocumentsQuery } from "../../../quries/searchQuery";
+import { useAppSelector } from "../../../redux/hooks";
+import { RootState } from "../../../redux/store";
 import { HOME_URL } from "./../../../constants/urlConstants";
+import { useDispatch } from "react-redux";
+import { setKeyword } from "../../../redux/keywordSlice";
 
-interface Props {
-  value: string;
-  setValue: Dispatch<React.SetStateAction<string>>;
-}
-
-const Header = (props: Props) => {
-  const { value, setValue } = props;
-  const [isFocus, setIsFocus] = useState(false);
+const Header = () => {
   const navigation = useNavigate();
-  const getDocuments = useGetDocumentsQuery(value, false);
+  const dispatch = useDispatch();
+  const keyword = useAppSelector((state: RootState) => state.keyword);
+  const [value, setValue] = useState(keyword);
+  const [isFocus, setIsFocus] = useState(false);
+  const getDocuments = useGetDocumentsQuery(keyword);
   const { openGlobalModal } = useGlobalModal();
 
   const onEnter = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -26,7 +27,7 @@ const Header = (props: Props) => {
       return;
     }
 
-    getDocuments.refetch();
+    dispatch(setKeyword(value));
   };
 
   return (

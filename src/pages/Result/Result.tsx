@@ -1,17 +1,12 @@
 import styled from "styled-components";
 import Header from "./components/Header";
 import Main from "./components/Main";
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
 
 const Result = () => {
-  const location = useLocation();
-  const [value, setValue] = useState<string>(location.state);
-
   return (
     <ResultStyled>
-      <Header value={value} setValue={setValue} />
-      <Main value={value} />
+      <Header />
+      <Main />
     </ResultStyled>
   );
 };
