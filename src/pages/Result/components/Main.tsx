@@ -13,7 +13,7 @@ const Main = (props: Props) => {
   return (
     <MainStyled>
       {getDocuments.data?.documents.map((item) => (
-        <Document key={item.id} />
+        <Document key={item.id} item={item} />
       ))}
     </MainStyled>
   );
