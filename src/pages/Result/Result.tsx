@@ -20,8 +20,9 @@ export default Result;
 
 const ResultStyled = styled.div`
   width: 768px;
-  height: 100%;
-  margin: 0 auto;
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
+  padding: 0 20px;
 `;

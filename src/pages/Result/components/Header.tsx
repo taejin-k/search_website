@@ -31,25 +31,19 @@ const Header = (props: Props) => {
 
   return (
     <HeaderStyled>
-      <button
-        type="button"
-        className="iconWrap"
-        onClick={() => navigation(HOME_URL)}
-      >
+      <button type="button" onClick={() => navigation(HOME_URL)}>
         <Icon width={24} height={24} iconKey="arrow_back" />
       </button>
-      <div className="inputWrap">
-        <Input
-          value={value}
-          focus={isFocus}
-          close={Boolean(value)}
-          onFocus={() => setIsFocus(true)}
-          onBlur={() => setIsFocus(false)}
-          onChange={(value) => setValue(value)}
-          onEnter={onEnter}
-          onClose={() => setValue("")}
-        />
-      </div>
+      <Input
+        value={value}
+        focus={isFocus}
+        close={Boolean(value)}
+        onFocus={() => setIsFocus(true)}
+        onBlur={() => setIsFocus(false)}
+        onChange={(value) => setValue(value)}
+        onEnter={onEnter}
+        onClose={() => setValue("")}
+      />
     </HeaderStyled>
   );
 };
@@ -58,29 +52,25 @@ export default Header;
 
 const HeaderStyled = styled.header`
   display: flex;
-  gap: 12px;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  gap: 12px;
   width: 100%;
-  padding: 16px 40px 16px 32px;
+  padding: 16px 20px 16px 12px;
   background: #fff;
 
-  > .inputWrap {
-    flex-grow: 1;
-  }
-
-  > .iconWrap {
-    width: 40px;
-    height: 40px;
-    background: none;
-    display: flex;
+  > button {
+    display: inline-flex;
     justify-content: center;
     align-items: center;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border-radius: 12px;
     cursor: pointer;
 
     &:hover {
       background: #f8f9fb;
-      border-radius: 12px;
     }
   }
 `;

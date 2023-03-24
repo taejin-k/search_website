@@ -28,7 +28,7 @@ const Input = (props: Props) => {
   } = props;
 
   return (
-    <InputStyled value={value} focus={focus} iconKey={iconKey} close={close}>
+    <InputStyled focus={focus} iconKey={iconKey} close={close}>
       {iconKey ? (
         <div className="iconWrap icon">
           <Icon width={24} height={24} iconKey={iconKey} />
@@ -55,7 +55,6 @@ const Input = (props: Props) => {
 export default Input;
 
 const InputStyled = styled.div<{
-  value: string;
   focus: boolean;
   iconKey: string | undefined;
   close: boolean | undefined;
@@ -81,22 +80,22 @@ const InputStyled = styled.div<{
     }
 
     input {
-      font-family: "Pretendard";
-      font-weight: 400;
       width: 100%;
       height: 48px;
       background: #ffffff;
-      border: ${props.focus ? "1.5px solid #00C3CC;" : "1px solid #c2c6ce;"};
-      caret-color: ${props.focus && "#00C3CC;"};
+      border: ${props.focus ? "1.5px solid #00C3CC" : "1px solid #c2c6ce"};
+      caret-color: ${props.focus && "#00C3CC"};
       border-radius: 48px;
       padding: 0px 16px;
       padding-left: ${props.iconKey && "56px"};
       padding-right: ${props.close && "56px"};
+      font-family: "Pretendard";
+      font-weight: 400;
       font-size: 16px;
       color: #33373d;
 
       &:hover {
-        border: ${props.focus ? "1.5px solid #00C3CC;" : "1px solid #959ca6;"};
+        border: ${props.focus ? "1.5px solid #00C3CC" : "1px solid #959ca6"};
       }
 
       &::placeholder {

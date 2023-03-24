@@ -27,9 +27,7 @@ const Home = () => {
 
   return (
     <HomeStyled>
-      <div className="iconWrap">
-        <Icon width={250} height={48} iconKey="liner" />
-      </div>
+      <Icon width={250} height={48} iconKey="liner" />
       <Input
         value={value}
         focus={isFocus}
@@ -53,8 +51,5 @@ const HomeStyled = styled.div`
   width: 560px;
   height: 100%;
   margin: 0 auto;
-
-  > .iconWrap {
-    margin-bottom: 80px;
-  }
+  gap: 80px;
 `;

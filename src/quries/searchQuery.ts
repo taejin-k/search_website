@@ -5,11 +5,9 @@ export const useGetDocumentsQuery = (
   keyword: string,
   enabled: boolean = true
 ) => {
-  const query = useQuery(
-    ["GetDocuments", keyword],
-    () => getDocumentsAPI(keyword),
-    { enabled: enabled }
-  );
+  const query = useQuery(["GetDocuments"], () => getDocumentsAPI(keyword), {
+    enabled: enabled,
+  });
 
   return query;
 };

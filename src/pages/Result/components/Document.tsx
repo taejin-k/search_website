@@ -1,5 +1,5 @@
-import { SyntheticEvent } from "react";
-import styled, { css } from "styled-components";
+import { SyntheticEvent, MouseEvent } from "react";
+import styled from "styled-components";
 import default_favicon from "../../../assets/svg/default_favicon.svg";
 import default_thumb from "../../../assets/svg/default_thumb.svg";
 import Icon from "../../../components/Icon";
@@ -16,12 +16,17 @@ const Document = (props: Props) => {
     event.currentTarget.src = default_thumb;
   };
 
+  const onClick = (
+    event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+  ) => {
+    event.stopPropagation();
+    alert("!");
+  };
+
   return (
-    <DocumentStyled>
-      <div className="imgWrap">
-        <img src={item.imageUrl} alt={item.imageUrl} onError={onError} />
-      </div>
-      <div className="content" onClick={() => window.open(item.url)}>
+    <DocumentStyled onClick={() => window.open(item.url)}>
+      <img src={item.imageUrl} alt={item.imageUrl} onError={onError} />
+      <div className="content">
         <div className="title">{item.title}</div>
         <div className="netloc">
           <div className="imgWrap">
@@ -30,8 +35,10 @@ const Document = (props: Props) => {
           <span>{item.netloc}</span>
         </div>
       </div>
-      <div className="iconWrap">
-        <Icon width={24} height={24} iconKey={`save_${item.isSaved}`} />
+      <div className="buttonWrap">
+        <button type="button" onClick={(event) => onClick(event)}>
+          <Icon width={24} height={24} iconKey={`save_${item.isSaved}`} />
+        </button>
       </div>
     </DocumentStyled>
   );
@@ -41,26 +48,30 @@ export default Document;
 
 const DocumentStyled = styled.div`
   width: 100%;
-  padding: 16px 40px;
+  padding: 16px 20px;
+  background: #fff;
+  border-radius: 16px;
+  cursor: pointer;
 
-  > .imgWrap {
-    display: inline-flex;
+  &:hover {
+    background: #f8f9fb;
+  }
+
+  > img {
     width: 72px;
     height: 72px;
     border-radius: 12px;
     margin-right: 16px;
-    overflow: hidden;
-    justify-content: center;
+    object-fit: cover;
   }
 
   .content {
     display: inline-flex;
     flex-direction: column;
-    width: calc(100% - 152px);
-    height: 72px;
     gap: 14px;
+    width: calc(100% - 168px);
+    height: 72px;
     margin-right: 40px;
-    cursor: pointer;
 
     .title {
       width: 100%;
@@ -77,10 +88,10 @@ const DocumentStyled = styled.div`
     }
 
     .netloc {
-      width: 100%;
-      height: 14px;
       display: flex;
       gap: 6px;
+      width: 100%;
+      height: 14px;
 
       > .imgWrap {
         width: 14px;
@@ -92,11 +103,23 @@ const DocumentStyled = styled.div`
     }
   }
 
-  > .iconWrap {
-    width: 24px;
-    height: 72px;
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
+  .buttonWrap {
+    display: inline-block;
+    margin: 16px 0;
+
+    > button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      background: transparent;
+      border-radius: 12px;
+      cursor: pointer;
+
+      &:hover {
+        background: #f2f3f7;
+      }
+    }
   }
 `;
