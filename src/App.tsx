@@ -1,5 +1,5 @@
+import { Fragment } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { RecoilRoot } from "recoil";
 import { HOME_URL, RESULT_URL } from "./constants/urlConstants";
 import { GlobalStyle } from "./global-style";
 import Home from "./pages/Home/Home";
@@ -7,7 +7,7 @@ import Result from "./pages/Result/Result";
 
 const App = () => {
   return (
-    <RecoilRoot>
+    <Fragment>
       <GlobalStyle />
       <BrowserRouter>
         <Routes>
@@ -16,7 +16,7 @@ const App = () => {
           <Route path="*" element={<Navigate replace to={HOME_URL} />} />
         </Routes>
       </BrowserRouter>
-    </RecoilRoot>
+    </Fragment>
   );
 };
 

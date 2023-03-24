@@ -1,11 +1,17 @@
+import { KeyboardEvent, useEffect, useState } from "react";
 import styled from "styled-components";
-import liner from "../../assets/svg/liner.svg";
 import Input from "../../components/Input";
-import { useState } from "react";
+import { useGetDocumentsQuery } from "../../quries/searchQuery";
+
 import Icon from "../../components/Icon";
 
 const Home = () => {
   const [value, setValue] = useState("");
+  const getDocuments = useGetDocumentsQuery(value, false);
+
+  const onEnter = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") getDocuments.refetch();
+  };
 
   return (
     <HomeStyled>
@@ -17,6 +23,7 @@ const Home = () => {
         iconKey={value ? "search_hover" : "search_default"}
         value={value}
         onChange={(value) => setValue(value)}
+        onEnter={onEnter}
       />
     </HomeStyled>
   );

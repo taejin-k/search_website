@@ -1,3 +1,4 @@
+import { KeyboardEvent } from "react";
 import styled, { css } from "styled-components";
 import Icon from "./Icon";
 
@@ -6,10 +7,11 @@ interface Props {
   iconKey: string;
   value: string;
   onChange: (value: string) => void;
+  onEnter: (event: KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const Input = (props: Props) => {
-  const { icon, iconKey, value, onChange } = props;
+  const { icon, iconKey, value, onChange, onEnter } = props;
 
   return (
     <InputStyled value={value}>
@@ -21,8 +23,9 @@ const Input = (props: Props) => {
       <input
         type="text"
         value={value}
-        onChange={(event) => onChange(event.target.value)}
         placeholder="Search keyword"
+        onChange={(event) => onChange(event.target.value)}
+        onKeyDown={(event) => onEnter(event)}
       />
     </InputStyled>
   );
