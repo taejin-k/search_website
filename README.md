@@ -1,46 +1,19 @@
-# Getting Started with Create React App
+## 개발 요약
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- Typescript와 React를 기반으로 개발했습니다.
 
-## Available Scripts
+- 상태 관리 라이브러리로는 redux-toolkit과 react-query를 사용했습니다. 새로고침했을 때 검색어를 유지하기 위해 redux-persist로 로컬스토리지에 검색어를 저장했습니다.
 
-In the project directory, you can run:
+- CSS-in-JS 라이브러리로 Styled-Component을 이용하여 컴포넌트를 스타일링했습니다.
 
-### `npm start`
+- react-query의 useInfiniteQuery와 IntersectionObserver를 사용하여 인티니티 스크롤을 구현했습니다.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- redux와 custom hook을 사용하여 modal을 전역으로 사용했습니다. 검색어가 없을 경우의 400 error를 막기 위해 모달 처리했습니다.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- assets 이미지 경로를 객체로 만들었습니다. 검색어 초기화, 뒤로가기, 북마크 저장 등 아이콘을 컴포넌트로 만들었습니다.
 
-### `npm test`
+- input을 컴포넌트 만들고 onFocus, onBlur, onChange, onClose 등 필요한 함수와 state를 custom 훅을 이용해 재사용성을 늘렸습니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- 논리연산자와 onError를 이용해 에러가 난 파비콘과 이미지를 default 이미지로 변경했습니다.
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- 텍스트 세로 길이에 맞춘 스켈레콘 로딩을 디자인하여 사용자 경험을 개선했습니다.
