@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Dispatch, memo, SyntheticEvent, useEffect, useRef } from "react";
 import styled from "styled-components";
 import default_thumb from "../../../assets/svg/default_thumb.svg";

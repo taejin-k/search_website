@@ -1,11 +1,4 @@
-import {
-  memo,
-  MouseEvent,
-  RefObject,
-  SyntheticEvent,
-  useState,
-  useEffect,
-} from "react";
+import { MouseEvent, RefObject, SyntheticEvent, useState } from "react";
 import styled from "styled-components";
 import default_favicon from "../../../assets/svg/default_favicon.svg";
 
@@ -22,7 +15,7 @@ interface Props {
   onError: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
 }
 
-const Document = memo((props: Props) => {
+const Document = (props: Props) => {
   const { item, targetRef, onError } = props;
   const [save, setSave] = useState(item.isSaved);
   const saveBookMark = usePostBookMarkMutation(setSave);
@@ -63,7 +56,7 @@ const Document = memo((props: Props) => {
       </div>
     </DocumentStyled>
   );
-});
+};
 
 export default Document;
 
