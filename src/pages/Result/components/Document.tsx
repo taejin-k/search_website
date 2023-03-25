@@ -1,35 +1,49 @@
-import { SyntheticEvent, MouseEvent, RefObject, useCallback } from "react";
+import {
+  memo,
+  MouseEvent,
+  RefObject,
+  SyntheticEvent,
+  useState,
+  useEffect,
+} from "react";
 import styled from "styled-components";
 import default_favicon from "../../../assets/svg/default_favicon.svg";
-import default_thumb from "../../../assets/svg/default_thumb.svg";
+
 import Icon from "../../../components/Icon";
 import { DocumentType } from "../../../models/getDocuments";
+import {
+  useDeleteBookMarkMutation,
+  usePostBookMarkMutation,
+} from "../../../quries/bookmarkQuery";
 
 interface Props {
   item: DocumentType;
   targetRef?: RefObject<HTMLDivElement> | null;
+  onError: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
 }
 
-const Document = (props: Props) => {
-  const { item, targetRef } = props;
-
-  const onError = useCallback(
-    (event: SyntheticEvent<HTMLImageElement, Event>) => {
-      event.currentTarget.src = default_thumb;
-    },
-    []
-  );
+const Document = memo((props: Props) => {
+  const { item, targetRef, onError } = props;
+  const [save, setSave] = useState(item.isSaved);
+  const saveBookMark = usePostBookMarkMutation(setSave);
+  const deleteBookMark = useDeleteBookMarkMutation(setSave);
 
   const onClick = (
-    event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+    event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+    id: string,
+    isSaved: boolean
   ) => {
     event.stopPropagation();
-    alert("!");
+
+    if (isSaved) deleteBookMark.mutate({ id: id });
+    else saveBookMark.mutate({ id: id });
   };
 
   return (
     <DocumentStyled ref={targetRef} onClick={() => window.open(item.url)}>
-      <img src={item.imageUrl} alt={item.imageUrl} onError={onError} />
+      <div className="imgWrap">
+        <img src={item.imageUrl} alt={item.imageUrl} onError={onError} />
+      </div>
       <div className="content">
         <div className="title">{item.title}</div>
         <div className="netloc">
@@ -40,13 +54,16 @@ const Document = (props: Props) => {
         </div>
       </div>
       <div className="buttonWrap">
-        <button type="button" onClick={(event) => onClick(event)}>
-          <Icon width={24} height={24} iconKey={`save_${item.isSaved}`} />
+        <button
+          type="button"
+          onClick={(event) => onClick(event, item.id, save)}
+        >
+          <Icon width={24} height={24} iconKey={`save_${save}`} />
         </button>
       </div>
     </DocumentStyled>
   );
-};
+});
 
 export default Document;
 
@@ -62,12 +79,19 @@ const DocumentStyled = styled.div`
     background: #f8f9fb;
   }
 
-  > img {
+  > .imgWrap {
     width: 72px;
     height: 72px;
     border-radius: 12px;
     margin-right: 16px;
-    object-fit: cover;
+    display: inline-block;
+
+    img {
+      width: 72px;
+      height: 72px;
+      border-radius: 12px;
+      object-fit: cover;
+    }
   }
 
   .content {

@@ -1,4 +1,8 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import {
+  combineReducers,
+  configureStore,
+  getDefaultMiddleware,
+} from "@reduxjs/toolkit";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import modalReducer from "./modalSlice";
@@ -26,6 +30,9 @@ const persistedReducer = persistReducer<RootStateType>(
 
 const store = configureStore({
   reducer: persistedReducer,
+  middleware: getDefaultMiddleware({
+    serializableCheck: false,
+  }),
 });
 
 export default store;

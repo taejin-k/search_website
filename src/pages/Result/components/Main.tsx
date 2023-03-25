@@ -1,15 +1,31 @@
-import { useEffect, useRef } from "react";
+import { Dispatch, memo, SyntheticEvent, useEffect, useRef } from "react";
 import styled from "styled-components";
+import default_thumb from "../../../assets/svg/default_thumb.svg";
 import { useGetDocumentsQuery } from "../../../quries/searchQuery";
 import { useAppSelector } from "../../../redux/hooks";
 import { RootState } from "../../../redux/store";
 import Document from "./Document";
 import DocumentSkeleton from "./DocumentSkeleton";
 
-const Main = () => {
+interface Props {
+  setIsScroll: Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Main = memo((props: Props) => {
+  const { setIsScroll } = props;
   const keyword = useAppSelector((state: RootState) => state.keyword);
   const getDocuments = useGetDocumentsQuery(keyword);
   const targetRef = useRef<HTMLDivElement>(null);
+  const mainRef = useRef<HTMLDivElement>(null);
+
+  const onScroll = (event: React.UIEvent<HTMLElement, UIEvent>) => {
+    if (event.currentTarget.scrollTop > 1) return;
+    setIsScroll(Boolean(event.currentTarget.scrollTop));
+  };
+
+  const onError = (event: SyntheticEvent<HTMLImageElement, Event>) => {
+    event.currentTarget.src = default_thumb;
+  };
 
   const handleObserver = (
     entries: IntersectionObserverEntry[],
@@ -34,24 +50,29 @@ const Main = () => {
     }
 
     return () => observer.disconnect();
+  }, [handleObserver]);
+
+  useEffect(() => {
+    if (!getDocuments.documents.length) mainRef.current?.scrollTo(0, 0);
   }, [getDocuments]);
 
   return (
-    <MainStyled>
+    <MainStyled ref={mainRef} onScroll={onScroll}>
       {getDocuments.documents.map((document, index, documents) => (
         <Document
           key={new Date().toString() + index}
           item={document}
           targetRef={documents.length === index + 1 ? targetRef : null}
+          onError={onError}
         />
       ))}
-      {getDocuments.isFetching &&
+      {!getDocuments.isLast &&
         [...Array(20)].map((_arry, index) => (
           <DocumentSkeleton key={new Date().toString() + index} />
         ))}
     </MainStyled>
   );
-};
+});
 
 export default Main;
 
@@ -61,7 +82,16 @@ const MainStyled = styled.main`
   overflow: auto;
 
   &::-webkit-scrollbar {
-    display: none;
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: none;
   }
 
   -ms-overflow-style: none;

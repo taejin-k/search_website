@@ -1,4 +1,4 @@
-import { useState, KeyboardEvent } from "react";
+import { KeyboardEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { RESULT_URL } from "../constants/urlConstants";
@@ -13,17 +13,11 @@ const useInput = () => {
   const [focus, setFocus] = useState(false);
   const { openGlobalModal } = useGlobalModal();
 
-  const onFocus = () => {
-    setFocus(true);
-  };
+  const onFocus = () => setFocus(true);
 
-  const onBlur = () => {
-    setFocus(false);
-  };
+  const onBlur = () => setFocus(false);
 
-  const onChange = (value: string) => {
-    setValue(value);
-  };
+  const onChange = (value: string) => setValue(value);
 
   const onEnter = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key !== "Enter") return;

@@ -9,17 +9,10 @@ const useGlobalModal = () => {
   const modalState = useAppSelector((state: RootState) => state.modal);
 
   const openGlobalModal = ({ isOpen, text }: ModalType) => {
-    dispatch(
-      openModal({
-        isOpen,
-        text,
-      })
-    );
+    dispatch(openModal({ isOpen, text }));
   };
 
-  const closeGlobalModal = () => {
-    dispatch(closeModal());
-  };
+  const closeGlobalModal = () => dispatch(closeModal());
 
   return { modalState, openGlobalModal, closeGlobalModal };
 };

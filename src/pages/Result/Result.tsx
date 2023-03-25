@@ -1,12 +1,15 @@
+import { useState } from "react";
 import styled from "styled-components";
 import Header from "./components/Header";
 import Main from "./components/Main";
 
 const Result = () => {
+  const [isScroll, setIsScroll] = useState(false);
+
   return (
     <ResultStyled>
-      <Header />
-      <Main />
+      <Header isScroll={isScroll} />
+      <Main setIsScroll={setIsScroll} />
     </ResultStyled>
   );
 };

@@ -24,5 +24,7 @@ export const useGetDocumentsQuery = (keyword: string) => {
     ? query.data.pages.map((page) => page.documents).flat()
     : [];
 
-  return { ...query, documents };
+  const isLast = query.data?.pages.map((page) => page.isLast).at(-1);
+
+  return { ...query, documents, isLast };
 };
