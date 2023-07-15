@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Icon from "../../components/Icon";
 import Input from "../../components/Input";
 import useInput from "../../hooks/useInput";
 
@@ -8,7 +7,6 @@ const Home = () => {
 
   return (
     <HomeStyled>
-      <Icon width={250} height={48} iconKey="liner" />
       <Input
         value={value}
         focus={focus}

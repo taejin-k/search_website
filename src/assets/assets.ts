@@ -1,4 +1,3 @@
-import liner from "./svg/liner.svg";
 import search_default from "./svg/search_default.svg";
 import search_focus from "./svg/search_focus.svg";
 import arrow_back from "./svg/arrow_back.svg";
@@ -8,7 +7,6 @@ import save_true from "./svg/save_true.svg";
 import save_false from "./svg/save_false.svg";
 
 export const assetImgs: { [key: string]: string } = {
-  liner: liner,
   search_default: search_default,
   search_focus: search_focus,
   arrow_back: arrow_back,
